@@ -123,12 +123,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\include\ConfigurationEventPrinter.h" />
+    <ClInclude Include="..\include\ImageEventPrinter.h" />
     <ClInclude Include="Core camera wrapper.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Core camera wrapper.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
