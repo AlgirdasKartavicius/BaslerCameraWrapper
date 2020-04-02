@@ -23,9 +23,7 @@ namespace Camera_test_core
 
         }
 
-
-        unsafe
-            public void Start()
+        public void Start()
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             camera = new Camera();
@@ -40,18 +38,13 @@ namespace Camera_test_core
 
         }
 
-        unsafe
-            private void Camera_event2(void* A_0, uint width, uint height)
+        private void Camera_event2(IntPtr ptr, int width, int height)
         {
             byte[] managedArray = new byte[width * height];
-            IntPtr ptr = new IntPtr(A_0);
-            //  Marshal.Copy(managedArray, 0, ptr, (int)(width * height));
-
             Marshal.Copy(ptr, managedArray, 0, managedArray.Length);
-            Mat img = new Mat((int)height, (int)width, DepthType.Cv8U, 1);
+            Mat img = new Mat(height, width, DepthType.Cv8U, 1);
             img.SetTo(managedArray);
             CvInvoke.Imwrite("core.jpg", img);
-
 
         }
 

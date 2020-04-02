@@ -13,7 +13,7 @@ namespace Corecamerawrapper {
 
 	// Number of images to be grabbed.
 	static const uint32_t c_countOfImagesToGrab = 12;
-	public delegate void OnFrameArrived(void*, uint32_t, uint32_t);
+	public delegate void OnFrameArrived(IntPtr, Int32, Int32);
 
 	CInstantCamera camera;
 	public ref class Camera
@@ -25,6 +25,7 @@ namespace Corecamerawrapper {
 	public: void Test() {
 
 	}
+
 
 	public: Camera()
 	{
@@ -38,9 +39,6 @@ namespace Corecamerawrapper {
 	public: void Grab() {
 		try
 		{
-
-
-
 			// Create an instant camera object with the camera device found first.
 			CInstantCamera camera(CTlFactory::GetInstance().CreateFirstDevice());
 
@@ -73,24 +71,12 @@ namespace Corecamerawrapper {
 				cnt++;
 				// Image grabbed successfully?
 				if (ptrGrabResult->GrabSucceeded())
-				{
-
-					// Access the image data.
+				{					// Access the image data.
 					cout << "SizeX: " << ptrGrabResult->GetWidth() << endl;
 					cout << "SizeY: " << ptrGrabResult->GetHeight() << endl;
-					const uint8_t* pImageBuffer = (uint8_t*)ptrGrabResult->GetBuffer();
-					cout << "Gray value of first pixel: " << (uint32_t)pImageBuffer[0] << endl << endl;
 
-					OnFrame(ptrGrabResult->GetBuffer(), ptrGrabResult->GetWidth(), ptrGrabResult->GetHeight());
+					OnFrame((IntPtr)ptrGrabResult->GetBuffer(), (Int32)ptrGrabResult->GetWidth(), (Int32)ptrGrabResult->GetHeight());
 
-#ifdef PYLON_WIN_BUILD
-
-
-					formatConverter.Convert(image, ptrGrabResult);
-					String_t fileName = "C:\\Algirdo\\Magistras\\Komponentinis sistemu projektavimas\\test.jpeg";
-					CImagePersistence::Save(ImageFileFormat_Jpeg, fileName, ptrGrabResult);
-
-#endif
 				}
 				else
 				{
@@ -111,7 +97,7 @@ namespace Corecamerawrapper {
 		while (cin.get() != '\n');
 	}
 
-		  void OnFrame(void* i, uint32_t width, uint32_t height) {
+		  void OnFrame(IntPtr i, Int32 width, Int32 height) {
 
 			  event(i, width, height);
 		  }
