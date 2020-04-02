@@ -3,7 +3,9 @@
 // Include files used by samples.
 #include "../include/ConfigurationEventPrinter.h"
 #include "../include/ImageEventPrinter.h"
-
+// Settings to use Basler GigE cameras.
+#include <pylon/gige/BaslerGigEInstantCamera.h>
+typedef Pylon::CBaslerGigEInstantCamera Camera_t;
 using namespace Pylon;
 using namespace System;
 using namespace std;
@@ -15,32 +17,39 @@ namespace Corecamerawrapper {
 	static const uint32_t c_countOfImagesToGrab = 12;
 	public delegate void OnFrameArrived(IntPtr, Int32, Int32);
 
-	CInstantCamera camera;
+
+
 	public ref class Camera
 	{
 
 	public:event OnFrameArrived^ event;
 
 
-	public: void Test() {
-
-	}
-
+		  INT64 Exposure;
 
 	public: Camera()
 	{
+
 
 		Console::WriteLine(".NET CORE Basler camera wrapper");
 		PylonInitialize();
 		CGrabResultPtr ptrGrabResult;
 
+
 	}
+
 
 	public: void Grab() {
 		try
 		{
-			// Create an instant camera object with the camera device found first.
-			CInstantCamera camera(CTlFactory::GetInstance().CreateFirstDevice());
+
+
+			// Create an instant camera object with the first found camera device matching the specified device class.
+			CDeviceInfo info;
+			info.SetDeviceClass(Camera_t::DeviceClass());
+			Camera_t camera = (CTlFactory::GetInstance().CreateFirstDevice(info));
+
+			UpdateSettings(camera);
 
 			// Print the model name of the camera.
 			cout << "Using device " << camera.GetDeviceInfo().GetModelName() << endl;
@@ -106,9 +115,18 @@ namespace Corecamerawrapper {
 		PylonTerminate();
 	}
 
-	public: void SetExposure(int exp) {
-
+	public: void SetExposure(INT64 exp) {
+		Exposure = exp;
 	}
+		  void UpdateSettings(Camera_t& camera) {
+
+			  camera.Open();
+			  camera.ExposureTimeRaw.SetValue(Exposure);
+			  camera.GainRaw.SetValue(camera.GainRaw.GetMax());
+			  camera.Close();
+		  }
+
+
 
 
 

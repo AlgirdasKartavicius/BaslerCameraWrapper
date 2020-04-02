@@ -27,6 +27,7 @@ namespace Camera_test_core
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             camera = new Camera();
+            camera.SetExposure(10000);
             camera.@event += Camera_event2;
 
             //https://inphamousdevelopment.wordpress.com/2012/10/01/sending-callbacks-from-c-to-c/
