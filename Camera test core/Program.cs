@@ -4,39 +4,34 @@ using Corecamerawrapper;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 
-
 namespace Camera_test_core
 {
-    class Program
+    internal class Program
     {
-        private Camera camera;
+        private Camera _camera;
+        private int _numberOfFrames = 0;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-
-
-
             Mat a = Mat.Zeros(10, 10, DepthType.Cv8U, 3);
             Program p = new Program();
 
             p.Start();
 
+            Console.ReadLine();
         }
 
         public void Start()
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
-            camera = new Camera();
-            camera.SetExposure(10000);
-            camera.@event += Camera_event2;
+            _camera = new Camera("Front1");
+            _camera.SetExposure(10000);
+            _camera.@event += Camera_event2;
 
-            //https://inphamousdevelopment.wordpress.com/2012/10/01/sending-callbacks-from-c-to-c/
-            //https://stackoverflow.com/questions/26547215/how-to-pass-c-sharp-method-as-a-callback-to-cli-c-function
-            camera.Grab();
+            _camera.UpdateSettings();
+            _camera.Grab();
 
             //camera.TestHandler += Camera_TestHandler;
-
-
         }
 
         private void Camera_event2(IntPtr ptr, int width, int height)
@@ -46,17 +41,18 @@ namespace Camera_test_core
             Mat img = new Mat(height, width, DepthType.Cv8U, 1);
             img.SetTo(managedArray);
             CvInvoke.Imwrite("core.jpg", img);
-
+            _numberOfFrames++;
+            if (_numberOfFrames == 5)
+            {
+                _camera.StopGrab();
+            }
         }
 
-        void CurrentDomain_ProcessExit(object sender, EventArgs e)
+        private void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
-            camera.Terminate();
+            _camera.Terminate();
 
             Console.WriteLine("exit");
         }
-
-
     }
 }
-
