@@ -2,10 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>Wrapper.CoreCamera</PackageId>
+    <Authors>Algirdas</Authors>
+    <Description>CLI/C++ basler camera wrapper for .NET CORE</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageTags>Basler, .NET Core, Camera</PackageTags>
+    <RepositoryUrl>https://github.com/AlgirdasKartavicius/BaslerCameraWrapper</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core camera wrapper\Core camera wrapper.vcxproj" />
   </ItemGroup>
-
 </Project>

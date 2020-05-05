@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Camera_test_core
+﻿namespace CoreCamera
 {
     public interface ICameraCore
     {

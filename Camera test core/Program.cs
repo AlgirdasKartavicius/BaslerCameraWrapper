@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using Corecamerawrapper;
+using CoreCamera;
 using Emgu.CV;
 using Emgu.CV.CvEnum;
 

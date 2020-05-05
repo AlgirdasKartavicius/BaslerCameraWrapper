@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Text;
 using Corecamerawrapper;
 
-namespace Camera_test_core
+namespace CoreCamera
 {
     public class CameraCore : ICameraCore
     {
