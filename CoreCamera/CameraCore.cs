@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using Corecamerawrapper;
-using Emgu.CV;
-using Emgu.CV.CvEnum;
 
 namespace Camera_test_core
 {
@@ -18,14 +16,14 @@ namespace Camera_test_core
         /// <summary>
         /// Frame arrived action
         /// </summary>
-        private readonly Action<Mat> _imageAction;
+        private readonly Action<byte[], int, int> _imageAction;
 
         /// <summary>
         /// Is camera currently grabbing
         /// </summary>
         public bool IsGrabbing { get; set; }
 
-        public CameraCore(string cameraName, Action<Mat> imageAction)
+        public CameraCore(string cameraName, Action<byte[], int, int> imageAction)
         {
             _camera = new Camera(cameraName);
             _camera.@event += Camera_event;
@@ -104,9 +102,8 @@ namespace Camera_test_core
         {
             byte[] managedArray = new byte[width * height];
             Marshal.Copy(ptr, managedArray, 0, managedArray.Length);
-            Mat img = new Mat(height, width, DepthType.Cv8U, 1);
-            img.SetTo(managedArray);
-            _imageAction.Invoke(img);
+
+            _imageAction.Invoke(managedArray, width, height);
         }
 
         /// <summary>

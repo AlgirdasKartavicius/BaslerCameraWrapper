@@ -16,6 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core camera wrapper\Core camera wrapper.vcxproj" />
+    <ProjectReference Include="..\CoreCamera\CoreCamera.csproj" />
   </ItemGroup>
 </Project>

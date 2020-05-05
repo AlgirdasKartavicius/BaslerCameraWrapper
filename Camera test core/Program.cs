@@ -23,7 +23,7 @@ namespace Camera_test_core
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
             _camera = new CameraCore("Front1", ImageArrived);
-            _camera.SetExposure(5000);
+            _camera.SetExposure(10000);
             _camera.SetHeight(1000);
             _camera.SetWidth(1000);
             _camera.SetGain(200);
@@ -32,8 +32,10 @@ namespace Camera_test_core
             _camera.Grab();
         }
 
-        public void ImageArrived(Mat img)
+        public void ImageArrived(byte[] bytes, int height, int width)
         {
+            Mat img = new Mat(height, width, DepthType.Cv8U, 1);
+            img.SetTo(bytes);
             Console.WriteLine("Saving test image");
             CvInvoke.Imwrite("test.jpg", img);
             _camera.StopGrab();
