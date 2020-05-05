@@ -12,12 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.2.0.3662" />
+    <PackageReference Include="Emgu.CV.runtime.windows" Version="4.2.0.3636" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core camera wrapper\Core camera wrapper.vcxproj" />
     <ProjectReference Include="..\NativeCodeWrapper\NativeCodeWrapper.vcxproj" />
   </ItemGroup>
-
 </Project>

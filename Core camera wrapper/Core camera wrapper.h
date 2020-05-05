@@ -26,6 +26,10 @@ namespace Corecamerawrapper {
 	public:event OnFrameArrived^ event;
 
 		  INT64 Exposure;
+		  INT64 Width;
+		  INT64 Height;
+		  INT64 Gain;
+		  INT64 BlackLevel;
 		  String^ CameraName;
 
 		  void OnFrame(IntPtr i, Int32 width, Int32 height) {
@@ -72,7 +76,6 @@ namespace Corecamerawrapper {
 			CInstantCamera camera(pdevice);
 
 			// Create an instant camera object with the first found camera device matching the specified device class.
-		//k
 
 			//info.SetFriendlyName("Front");
 			//info.SetDeviceClass(Camera_t::DeviceClass());
@@ -157,12 +160,49 @@ namespace Corecamerawrapper {
 		Camera_t camera(CTlFactory::GetInstance().CreateFirstDevice(info));
 		camera.Open();
 		camera.ExposureTimeRaw.SetValue(Exposure);
-		camera.GainRaw.SetValue(camera.GainRaw.GetMax());
+		int maxWidth = camera.Width.GetMax();
+		if (Width <= maxWidth) {
+			camera.Width.SetValue(Width);
+		}
+		else {
+			throw new exception("Width too high");
+		}
+		int maxHeight = camera.Height.GetMax();
+		if (Height <= maxHeight) {
+			camera.Height.SetValue(Height);
+		}
+		else {
+			throw new exception("Height too high");
+		}
+
+		int maxGain = camera.GainRaw.GetMax();
+
+		if (Gain <= maxGain) {
+			camera.GainRaw.SetValue(Gain);
+		}
+		else {
+			throw new exception("Gain too high");
+		}
+
 		camera.Close();
 	}
 
 	public: void SetExposure(INT64 exp) {
 		Exposure = exp;
+	}
+
+	public: void SetWidth(INT64 width) {
+		Width = width;
+	}
+	public: void SetHeight(INT64 height) {
+		Height = height;
+	}
+	public: void SetGain(INT64 gain) {
+		Gain = gain;
+	}
+
+	public: void SetBlackLevel(INT64 blackLevel) {
+		BlackLevel = blackLevel;
 	}
 	};
 }

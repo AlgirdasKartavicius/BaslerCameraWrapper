@@ -8,12 +8,10 @@ namespace Camera_test_core
 {
     internal class Program
     {
-        private Camera _camera;
-        private int _numberOfFrames = 0;
+        private CameraCore _camera;
 
         private static void Main(string[] args)
         {
-            Mat a = Mat.Zeros(10, 10, DepthType.Cv8U, 3);
             Program p = new Program();
 
             p.Start();
@@ -24,32 +22,29 @@ namespace Camera_test_core
         public void Start()
         {
             AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
-            _camera = new Camera("Front1");
-            _camera.SetExposure(10000);
-            _camera.@event += Camera_event2;
+            _camera = new CameraCore("Front1", ImageArrived);
+            _camera.SetExposure(5000);
+            _camera.SetHeight(1000);
+            _camera.SetWidth(1000);
+            _camera.SetGain(200);
 
             _camera.UpdateSettings();
             _camera.Grab();
-
-            //camera.TestHandler += Camera_TestHandler;
         }
 
-        private void Camera_event2(IntPtr ptr, int width, int height)
+        public void ImageArrived(Mat img)
         {
-            byte[] managedArray = new byte[width * height];
-            Marshal.Copy(ptr, managedArray, 0, managedArray.Length);
-            Mat img = new Mat(height, width, DepthType.Cv8U, 1);
-            img.SetTo(managedArray);
-            CvInvoke.Imwrite("core.jpg", img);
-            _numberOfFrames++;
-            if (_numberOfFrames == 5)
-            {
-                _camera.StopGrab();
-            }
+            Console.WriteLine("Saving test image");
+            CvInvoke.Imwrite("test.jpg", img);
+            _camera.StopGrab();
         }
 
         private void CurrentDomain_ProcessExit(object sender, EventArgs e)
         {
+            if (_camera.IsGrabbing)
+            {
+                _camera.StopGrab();
+            }
             _camera.Terminate();
 
             Console.WriteLine("exit");
