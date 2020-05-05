@@ -8,7 +8,7 @@ namespace Camera_test_core
 {
     internal class Program
     {
-        private CameraCore _camera;
+        private ICameraCore _camera;
 
         private static void Main(string[] args)
         {

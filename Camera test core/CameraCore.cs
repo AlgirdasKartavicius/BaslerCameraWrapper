@@ -8,11 +8,21 @@ using Emgu.CV.CvEnum;
 
 namespace Camera_test_core
 {
-    public class CameraCore
+    public class CameraCore : ICameraCore
     {
-        private Camera _camera;
+        /// <summary>
+        /// Camera instance
+        /// </summary>
+        private readonly Camera _camera;
+
+        /// <summary>
+        /// Frame arrived action
+        /// </summary>
         private readonly Action<Mat> _imageAction;
 
+        /// <summary>
+        /// Is camera currently grabbing
+        /// </summary>
         public bool IsGrabbing { get; set; }
 
         public CameraCore(string cameraName, Action<Mat> imageAction)
@@ -22,43 +32,74 @@ namespace Camera_test_core
             _imageAction = imageAction;
         }
 
-        public void SetExposure(long exp)
+        /// <summary>
+        /// Set camera exposure time
+        /// </summary>
+        /// <param name="exposure">exposure value</param>
+        public void SetExposure(long exposure)
         {
-            _camera.SetExposure(exp);
+            _camera.SetExposure(exposure);
         }
 
+        /// <summary>
+        /// Set camera gain parameter
+        /// </summary>
+        /// <param name="gain">gain value</param>
         public void SetGain(long gain)
         {
             _camera.SetGain(gain);
         }
 
+        /// <summary>
+        /// Set frame height
+        /// </summary>
+        /// <param name="height">height value</param>
         public void SetHeight(long height)
         {
             _camera.SetHeight(height);
         }
 
+        /// <summary>
+        /// Set frame width
+        /// </summary>
+        /// <param name="width">width value</param>
         public void SetWidth(long width)
         {
             _camera.SetWidth(width);
         }
 
+        /// <summary>
+        /// Start frames grabbing
+        /// </summary>
         public void Grab()
         {
             IsGrabbing = true;
             _camera.Grab();
         }
 
+        /// <summary>
+        /// Stop frames grabbing
+        /// </summary>
         public void StopGrab()
         {
             IsGrabbing = false;
             _camera.StopGrab();
         }
 
+        /// <summary>
+        /// Write current settings to camera device
+        /// </summary>
         public void UpdateSettings()
         {
             _camera.UpdateSettings();
         }
 
+        /// <summary>
+        /// Camera arrived event
+        /// </summary>
+        /// <param name="ptr">pointer to image array</param>
+        /// <param name="width">frame width</param>
+        /// <param name="height">frame height</param>
         private void Camera_event(IntPtr ptr, int width, int height)
         {
             byte[] managedArray = new byte[width * height];
@@ -68,6 +109,9 @@ namespace Camera_test_core
             _imageAction.Invoke(img);
         }
 
+        /// <summary>
+        /// Terminate basler pylon
+        /// </summary>
         public void Terminate()
         {
             _camera.Terminate();
