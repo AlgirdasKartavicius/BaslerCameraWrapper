@@ -9,6 +9,7 @@
 ## Table of Contents
 
 - [Usage](#usage)
+- [Blazor](#blazor)
 - [License](#license)
 
 ---
@@ -46,6 +47,7 @@ public void ImageArrived(byte[] bytes, int height, int width)
     _camera.StopGrab();
 }        
 ```
+## Blazor
 You can use this library with [Blazor](https://docs.microsoft.com/en-us/aspnet/core/blazor/get-started?view=aspnetcore-3.1&tabs=visual-studio)
 
 Add this code to your page:
