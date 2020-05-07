@@ -7,22 +7,19 @@
 <h1>Camera test</h1>
 <button class="btn btn-primary" @onclick="GetFrame">Get image</button>
 
-<img src="@imageString" alt="Image">
+<img src="@_imageString" alt="Image">
 
 @code
 {
 
-    private string imageString = null;
+    private string _imageString = null;
     public void GetFrame()
     {
-        CameraService.StartGrab(ImageArrived, 1);
-
-        ImageArrived("example.jpg");
+        CameraService.StartGrab(ImageArrived);
     }
 
-    void ImageArrived(string path)
+    void ImageArrived(byte[] bytes)
     {
-        var bytes = File.ReadAllBytes(path);
-        imageString = $"data:image/png;base64,{Convert.ToBase64String(bytes)}";
+        _imageString = $"data:image/png;base64,{Convert.ToBase64String(bytes)}";
     }
 }

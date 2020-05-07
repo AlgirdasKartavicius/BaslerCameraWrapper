@@ -7,8 +7,6 @@ namespace Camera_test_core
 {
     internal class Program
     {
-        private ICameraCore _camera;
-
         private static void Main(string[] args)
         {
             Program p = new Program();
@@ -17,6 +15,8 @@ namespace Camera_test_core
 
             Console.ReadLine();
         }
+
+        private ICameraCore _camera;
 
         public void Start()
         {
