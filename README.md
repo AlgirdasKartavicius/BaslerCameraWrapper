@@ -116,6 +116,8 @@ namespace BlazorAppCamera.Data
 }
 ```
 
+![Blazor application example](BlazorAppCamera/blazorImage.PNG)
+
 
 
 ## License
